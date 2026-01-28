@@ -87,7 +87,7 @@ def Check_wifi():
 # --- Sensors, Servos, Screen & Led Functions ---
 # Lights of Alarm Function
 def Turn_on_lights():
-    global light_state, alarm_state, strip
+    global light_state, strip
     if not light_state and alarm_state:
         strip.show_color(neopixel.rgb(70, 0, 0))
         light_state = LIGTH_ON
