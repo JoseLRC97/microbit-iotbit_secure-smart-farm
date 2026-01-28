@@ -207,7 +207,6 @@ def On_door_command(message):
     global door_state, alarm_state
     if not message:
         return
-    alarm_state = ALARM_ON if "reason=PUERTA CERRADA Riesgo de Inundacion" in message else ALARM_OFF
     if "command=OPEN" in message:
         Update_servo_open()
         door_state = OPEN
@@ -223,7 +222,6 @@ def On_roof_command(message):
     global roof_state, alarm_state
     if not message:
         return
-    alarm_state = ALARM_ON if "reason=TECHO CERRADO temperatura baja" in message else ALARM_OFF
     if "command=OPEN" in message:
         Update_servo_open()
         roof_state = OPEN

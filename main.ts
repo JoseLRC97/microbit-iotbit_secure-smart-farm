@@ -239,7 +239,6 @@ ESP8266_IoT.MqttEvent("actuators/roof", ESP8266_IoT.QosList.Qos0, function On_ro
         return
     }
     
-    alarm_state = message.indexOf("reason=TECHO CERRADO temperatura baja") >= 0 ? ALARM_ON : ALARM_OFF
     if (message.indexOf("command=OPEN") >= 0) {
         Update_servo_open()
         roof_state = OPEN
@@ -258,7 +257,6 @@ ESP8266_IoT.MqttEvent("actuators/door", ESP8266_IoT.QosList.Qos0, function On_do
         return
     }
     
-    alarm_state = message.indexOf("reason=PUERTA CERRADA Riesgo de Inundacion") >= 0 ? ALARM_ON : ALARM_OFF
     if (message.indexOf("command=OPEN") >= 0) {
         Update_servo_open()
         door_state = OPEN
