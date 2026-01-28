@@ -25,7 +25,7 @@ let MQTT_LOOP_INTERVAL = 15000
 let OLED_LOOP_INTERVAL = 1000
 let LIGHT_LOOP_INTERVAL = 2000
 let GTH_LOOP_INTERVAL = 30000
-let WATER_LEVEL_LOOP_INTERVAL = 3000
+let WATER_LEVEL_LOOP_INTERVAL = 5000
 //  --- Variables ---
 let wifi_state = DISCONNECTED
 let previus_wifi_state = wifi_state
@@ -235,10 +235,6 @@ loops.everyInterval(WATER_LEVEL_LOOP_INTERVAL, function Read_water_sensor() {
 OLED.drawLoading(90)
 ESP8266_IoT.MqttEvent("actuators/roof", ESP8266_IoT.QosList.Qos0, function On_roof_command(message: string) {
     
-    if (!message) {
-        return
-    }
-    
     if (message.indexOf("command=OPEN") >= 0) {
         Update_servo_open()
         roof_state = OPEN
@@ -253,10 +249,6 @@ ESP8266_IoT.MqttEvent("actuators/roof", ESP8266_IoT.QosList.Qos0, function On_ro
 })
 ESP8266_IoT.MqttEvent("actuators/door", ESP8266_IoT.QosList.Qos0, function On_door_command(message: string) {
     
-    if (!message) {
-        return
-    }
-    
     if (message.indexOf("command=OPEN") >= 0) {
         Update_servo_open()
         door_state = OPEN
@@ -270,10 +262,6 @@ ESP8266_IoT.MqttEvent("actuators/door", ESP8266_IoT.QosList.Qos0, function On_do
     
 })
 ESP8266_IoT.MqttEvent("notification/alert", ESP8266_IoT.QosList.Qos0, function On_alert_notification(message: string) {
-    
-    if (!message) {
-        return
-    }
     
     if (message.indexOf("command=TURN_ON") >= 0) {
         alarm_state = ALARM_ON

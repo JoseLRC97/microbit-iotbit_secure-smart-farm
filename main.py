@@ -27,7 +27,7 @@ MQTT_LOOP_INTERVAL = 15000
 OLED_LOOP_INTERVAL = 1000
 LIGHT_LOOP_INTERVAL = 2000
 GTH_LOOP_INTERVAL = 30000
-WATER_LEVEL_LOOP_INTERVAL = 3000
+WATER_LEVEL_LOOP_INTERVAL = 5000
 
 # --- Variables ---
 wifi_state = DISCONNECTED
@@ -204,9 +204,7 @@ def Public_PIR_values():
 
 # Receive Commands to Door and detect if Alarm have to Turn On or Turn Off
 def On_door_command(message):
-    global door_state, alarm_state
-    if not message:
-        return
+    global door_state
     if "command=OPEN" in message:
         Update_servo_open()
         door_state = OPEN
@@ -219,9 +217,7 @@ def On_door_command(message):
 
 # Receive Commands to Roof and detect if Alarm have to Turn On or Turn Off
 def On_roof_command(message):
-    global roof_state, alarm_state
-    if not message:
-        return
+    global roof_state
     if "command=OPEN" in message:
         Update_servo_open()
         roof_state = OPEN
@@ -235,8 +231,6 @@ def On_roof_command(message):
 # Receive if Alarm have to Turn On or Turn Off
 def On_alert_notification(message):
     global alarm_state
-    if not message:
-        return
     if "command=TURN_ON" in message:
         alarm_state = ALARM_ON
     elif "command=TURN_OFF" in message:
