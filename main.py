@@ -40,8 +40,8 @@ global_temperature = 0
 global_humidity = 0
 previus_global_temperature = global_temperature
 previus_global_humidity = global_humidity
-door_state = CLOSED
-roof_state = CLOSED
+door_state = OPEN
+roof_state = OPEN
 previus_door_state = door_state
 previus_roof_state = roof_state
 water_level = 0
@@ -110,7 +110,6 @@ def Read_temperature_humidity_sensor():
     global global_temperature, global_humidity
     device_id = "DHT11"
     global_temperature = Environment.dht11value(Environment.DHT11Type.DHT11_TEMPERATURE_C, DigitalPin.P13)
-    basic.pause(5000)
     global_humidity = Environment.dht11value(Environment.DHT11Type.DHT11_HUMIDITY, DigitalPin.P13)
     timestamp = int(input.running_time() / 1000)
     payload = "deviceId=%s|timestamp=%i|temp=%d|humi=%i" % (

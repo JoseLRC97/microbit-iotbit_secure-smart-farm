@@ -37,8 +37,8 @@ let global_temperature = 0
 let global_humidity = 0
 let previus_global_temperature = global_temperature
 let previus_global_humidity = global_humidity
-let door_state = CLOSED
-let roof_state = CLOSED
+let door_state = OPEN
+let roof_state = OPEN
 let previus_door_state = door_state
 let previus_roof_state = roof_state
 let water_level = 0
@@ -217,7 +217,6 @@ loops.everyInterval(GTH_LOOP_INTERVAL, function Read_temperature_humidity_sensor
     
     let device_id = "DHT11"
     global_temperature = Environment.dht11value(Environment.DHT11Type.DHT11_temperature_C, DigitalPin.P13)
-    basic.pause(5000)
     global_humidity = Environment.dht11value(Environment.DHT11Type.DHT11_humidity, DigitalPin.P13)
     let timestamp = Math.trunc(input.runningTime() / 1000)
     let payload = `deviceId=${device_id}|timestamp=${timestamp}|temp=${global_temperature}|humi=${global_humidity}`
