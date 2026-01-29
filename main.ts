@@ -131,18 +131,21 @@ OLED.init(128, 64)
 OLED.writeString("INITIALIZING")
 basic.pause(3000)
 OLED.drawLoading(0)
+//  Connect to Router
 while (wifi_state != CONNECTED) {
     Connect_wifi()
     Check_wifi()
     basic.pause(10000)
 }
 OLED.drawLoading(25)
+//  Connect to MQTT Broker
 while (mqtt_state != CONNECTED) {
     Connect_mqtt_broker()
     Check_mqtt_state()
     basic.pause(10000)
 }
 OLED.drawLoading(50)
+//  Configure LED and Interrupts
 let strip = neopixel.create(DigitalPin.P9, 1, NeoPixelMode.RGB)
 pins.onPulsed(DigitalPin.P1, PulseValue.Low, function PIR_start_handler() {
     
@@ -154,7 +157,11 @@ pins.onPulsed(DigitalPin.P1, PulseValue.High, function PIR_end_handler() {
     PIR_present = MOVE_UNDETECTED
     Public_PIR_values()
 })
-OLED.drawLoading(70)
+OLED.drawLoading(60)
+//  Configure servo with the servo state
+Update_servo_open()
+OLED.drawLoading(75)
+//  Define Tasks
 loops.everyInterval(WIFI_LOOP_INTERVAL, Check_wifi)
 loops.everyInterval(MQTT_LOOP_INTERVAL, Check_mqtt_state)
 loops.everyInterval(OLED_LOOP_INTERVAL, function Update_oled_screen() {
@@ -232,6 +239,7 @@ loops.everyInterval(WATER_LEVEL_LOOP_INTERVAL, function Read_water_sensor() {
     ESP8266_IoT.publishMqttMessage(payload, "sensors/water_level", ESP8266_IoT.QosList.Qos0)
 })
 OLED.drawLoading(90)
+//  Define MQTT events to recieve
 ESP8266_IoT.MqttEvent("actuators/roof", ESP8266_IoT.QosList.Qos0, function On_roof_command(message: string) {
     
     if (message.indexOf("command=OPEN") >= 0) {
